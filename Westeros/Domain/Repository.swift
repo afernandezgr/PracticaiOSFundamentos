@@ -22,9 +22,16 @@ protocol HouseFactory {
     func houses(filteredBy: Filter) -> [House]
 }
 
+protocol SeasonsFactory {
+    
+    typealias FilterSeasons = (Season) -> Bool
+    
+    var seasons: [Season] { get }
+    func season(named: String) -> Season?
+    func seasons(filteredBy: FilterSeasons) -> [Season]
+}
 
-
-final class LocalFactory: HouseFactory {
+final class LocalFactory: HouseFactory , SeasonsFactory{
     
     var houses: [House] {
         // Houses creation here
@@ -67,7 +74,66 @@ final class LocalFactory: HouseFactory {
     }
     
     
+    var seasons: [Season] {
+        // Season creation here
+        
+        let season1 = Season(name: "Temporada-1", releaseDate: Date(dateString: "01-04-2011"))
+        let season2 = Season(name: "Temporada-2", releaseDate: Date(dateString: "01-04-2012"))
+        let season3 = Season(name: "Temporada-3", releaseDate: Date(dateString: "01-03-2013"))
+        let season4 = Season(name: "Temporada-4", releaseDate: Date(dateString: "01-04-2014"))
+        let season5 = Season(name: "Temporada-5", releaseDate: Date(dateString: "01-04-2015"))
+        let season6 = Season(name: "Temporada-6", releaseDate: Date(dateString: "01-04-2016"))
+        let season7 = Season(name: "Temporada-7", releaseDate: Date(dateString: "01-07-2017"))
+
+        let epS01E01 = Episode(name: "1.Se acerca el invierno" , launchDate: Date(dateString:"17-04-2011"), season: season1)
+        let epS01E02 = Episode(name: "2.Camino Real" , launchDate: Date(dateString:"24-04-2011"), season:season1)
+        
+        season1.add(episodes: epS01E01,epS01E02)
+        
+
+        let epS02E01 = Episode(name: "1.El Norte no olvida" , launchDate: Date(dateString:"01-04-2012"), season: season2)
+        let epS02E02 = Episode(name: "2.Las tierras de la noche" , launchDate: Date(dateString:"08-04-2012"), season:season2)
+        
+        season2.add(episodes: epS02E01,epS02E02)
+        
+        let epS03E01 = Episode(name: "1.Valar Dohaeris" , launchDate: Date(dateString:"31-03-2013"), season: season3)
+        let epS03E02 = Episode(name: "2.Alas negras, palabras negras" , launchDate: Date(dateString:"07-04-2013"), season:season3)
+        
+        season3.add(episodes: epS03E01,epS03E02)
+        
+        let epS04E01 = Episode(name: "1.Dos espadas" , launchDate: Date(dateString:"06-04-2014"), season: season4)
+        let epS04E02 = Episode(name: "2.El león y la rosa" , launchDate: Date(dateString:"13-04-2014"), season:season4)
+        
+        season4.add(episodes: epS04E01,epS04E02)
+        
+        let epS05E01 = Episode(name: "1.The wars to come" , launchDate: Date(dateString:"12-04-2015"), season: season5)
+        let epS05E02 = Episode(name: "2.The House of Black and White" , launchDate: Date(dateString:"19-04-2015"), season:season5)
+        
+        season5.add(episodes: epS05E01,epS05E02)
+        
+        let epS06E01 = Episode(name: "1.The Red Woman" , launchDate: Date(dateString:"24-04-2016"), season: season6)
+        let epS06E02 = Episode(name: "2.Home" , launchDate: Date(dateString:"01-05-2016"), season:season6)
+        
+        season6.add(episodes: epS06E01,epS06E02)
+        
+        let epS07E01 = Episode(name: "1.Rocadragón" , launchDate: Date(dateString:"16-07-2017"), season: season7)
+        let epS07E02 = Episode(name: "2.Stormborn" , launchDate: Date(dateString:"23-07-2017"), season:season7)
+        
+        season7.add(episodes: epS07E01,epS07E02)
+        
+        return [season1, season2, season3,season4,season5,season6,season7].sorted()
+    }
     
+    func seasons(filteredBy: FilterSeasons) -> [Season] {
+        return Repository.local.seasons.filter(filteredBy)
+    }
+    
+    
+    func season(named name: String) -> Season? {
+        let season = seasons.filter{ $0.name.uppercased() == name.uppercased() }.first
+        return season
+    }
+
 }
 
 
