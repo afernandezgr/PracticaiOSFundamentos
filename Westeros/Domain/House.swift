@@ -16,6 +16,12 @@ extension Date {
         let d = dateStringFormatter.date(from: dateString)!
         self.init(timeInterval:0, since:d)
     }
+    
+    func toString(dateFormat format : String) -> String{
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: self)
+    }
 }
 
 
