@@ -33,7 +33,10 @@ class MemberListViewController: UIViewController {
         
         // Asignamos la fuente de datos
         tableView.dataSource = self
+        tableView.delegate = self
     }
+    
+    
 }
 
 // MARK: - UITableViewDataSource
@@ -58,6 +61,24 @@ extension MemberListViewController: UITableViewDataSource {
         
         // Devolver la celda
         return cell
+    }
+
+    
+}
+
+extension MemberListViewController : UITableViewDelegate {
+    
+   
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Averiguar que episode han pulsado
+        let person = model[indexPath.row]
+        
+        
+        // Creamos el SeasonDetailViewController
+        let memberDetailViewController = MemberDetailViewController(model: person)
+        
+        // Hacemos push
+        navigationController?.pushViewController(memberDetailViewController, animated: true)
     }
 }
 

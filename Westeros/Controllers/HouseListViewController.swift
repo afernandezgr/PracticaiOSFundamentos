@@ -28,7 +28,7 @@ class HouseListViewController: UITableViewController {
     init(model: [House]) {
         self.model = model
         super.init(style: .plain)
-        title = "Westeros"
+        title = "Houses"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -85,12 +85,12 @@ class HouseListViewController: UITableViewController {
         delegate?.houseListViewController(self, didSelectHouse: house)
         
         // Mando la misma info a traves de notificaciones
-        let notificationCenter = NotificationCenter.default
-        
-        let notification = Notification(name: Notification.Name(HOUSE_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [HOUSE_KEY : house])
-        
-        notificationCenter.post(notification)
-        
+//        let notificationCenter = NotificationCenter.default
+//
+//        let notification = Notification(name: Notification.Name(HOUSE_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [HOUSE_KEY : house])
+//
+//        notificationCenter.post(notification)
+//
         // Guardar las coordenadas (section, row) de la ultima casa seleccionada
         saveLastSelectedHouse(at: indexPath.row)
     }
@@ -115,7 +115,6 @@ extension HouseListViewController {
         return house
     }
 }
-
 
 
 

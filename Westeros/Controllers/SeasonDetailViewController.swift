@@ -36,6 +36,7 @@ class SeasonDetailViewController: UIViewController {
     // Mark: - Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        setupUI()
         syncModelWithView()
     }
     override func viewDidLoad() {
@@ -55,7 +56,23 @@ class SeasonDetailViewController: UIViewController {
         
     }
     
-  
+
+    // MARK: - UI
+    func setupUI() {
+       
+        let episodes = UIBarButtonItem(title: "Episodes", style: .plain, target: self, action: #selector(displayEpisodes))
+        
+        navigationItem.rightBarButtonItems = [episodes]
+    }
+    
+    @objc func displayEpisodes() {
+        // Creamos el VC
+        let episodesListViewController = EpisodeListViewController(model: model.sortedEpisodes)
+        
+        // Hacemos Push
+        navigationController?.pushViewController(episodesListViewController, animated: true)
+    }
+
  
 }
 

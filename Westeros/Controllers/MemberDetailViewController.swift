@@ -1,24 +1,24 @@
 //
-//  EpisodeDetailViewController.swift
+//  MemberDetailViewController.swift
 //  Westeros
 //
-//  Created by Adolfo Fernandez on 24/2/18.
+//  Created by Adolfo Fernandez on 25/2/18.
 //  Copyright © 2018 Alexandre Freire. All rights reserved.
 //
 
 import UIKit
 
-class EpisodeDetailViewController: UIViewController {
+class MemberDetailViewController: UIViewController {
 
-    @IBOutlet weak var episodeNameLabel: UILabel!
-    @IBOutlet weak var launchDateLabel: UILabel!
-    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var aliasLabel: UILabel!
+    @IBOutlet weak var houseNameLabel: UILabel!
     
     // MARK: - Properties
-    var model: Episode
+    var model: Person
     
     // MARK: - Initizalization
-    init(model: Episode){
+    init(model: Person){
         //Limpiamos desorden propio
         self.model = model
         
@@ -35,10 +35,10 @@ class EpisodeDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       
+
+        // Do any additional setup after loading the view.
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         syncModelWithView()
@@ -48,11 +48,18 @@ class EpisodeDetailViewController: UIViewController {
     // Mark: - Sync
     func syncModelWithView() {
         // Model -> View
-        episodeNameLabel.text = "\(model.name)"
-        launchDateLabel.text = model.launchDate.toString(dateFormat: "dd-MM-YYYY")
-        
-        
+        nameLabel.text = "\(model.name)"
+        aliasLabel.text = "\(model.alias)"
+        houseNameLabel.text = "\(model.house.name)"
+
     }
+
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
 
 
 }
