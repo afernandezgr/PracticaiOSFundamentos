@@ -36,9 +36,24 @@ class SeasonDetailViewController: UIViewController {
     // Mark: - Life Cycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        // Nos damos de alta ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(seasonDidChange), name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: nil)
+        
         setupUI()
         syncModelWithView()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Nos damos de baja ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,13 +61,29 @@ class SeasonDetailViewController: UIViewController {
     }
 
     
+    // MARK: - Notifications
+    @objc func seasonDidChange(notification: Notification) {
+        // Extraer el userInfo de la notification
+        guard let info = notification.userInfo else {
+            return
+        }
+        
+        // Sacar la casa del userInfo
+        let season = info[SEASON_KEY] as? Season
+        
+        // Actualizar el modelo
+        model = season!
+        
+        // Sincronizar la vista
+        syncModelWithView()
+    }
+    
     // Mark: - Sync
     func syncModelWithView() {
         // Model -> View
         seasonNameLabel.text = "Nombre de la temporada: \(model.name)"
-       
         releaseDateLabel.text = model.releaseDate.toString(dateFormat: "dd-MM-YYYY")
-        
+        title = model.name
         
     }
     
@@ -70,6 +101,10 @@ class SeasonDetailViewController: UIViewController {
         let episodesListViewController = EpisodeListViewController(model: model.sortedEpisodes)
         
         // Hacemos Push
+        let backItem = UIBarButtonItem()
+        backItem.title = "Season Details"
+        navigationItem.backBarButtonItem = backItem
+        
         navigationController?.pushViewController(episodesListViewController, animated: true)
     }
 

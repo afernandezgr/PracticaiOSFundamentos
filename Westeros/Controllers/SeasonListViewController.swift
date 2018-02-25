@@ -8,6 +8,9 @@
 
 import UIKit
 
+let SEASON_KEY = "SeasonKey"
+let SEASON_DID_CHANGE_NOTIFICATION_NAME = "SeasonDidChange"
+
 protocol SeasonListViewControllerDelegate: class {
     // should, will, did
     func seasonListViewController(_ viewController: SeasonListViewController, didSelectSeason: Season)
@@ -23,7 +26,6 @@ class SeasonListViewController: UITableViewController {
     init(model: [Season]){
         self.model = model
         super.init(style: .plain)
-        title = "Seasons"
         
     }
     
@@ -88,12 +90,12 @@ class SeasonListViewController: UITableViewController {
         // Aviso al delegado
         delegate?.seasonListViewController(self, didSelectSeason: season)
         
-//        // Mando la misma info a traves de notificaciones
-//        let notificationCenter = NotificationCenter.default
-//
-//        let notification = Notification(name: Notification.Name(HOUSE_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [HOUSE_KEY : house])
-//
-//        notificationCenter.post(notification)
+       // Mando la misma info a traves de notificaciones
+        let notificationCenter = NotificationCenter.default
+
+        let notification = Notification(name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [SEASON_KEY : season])
+
+        notificationCenter.post(notification)
 
     }
     

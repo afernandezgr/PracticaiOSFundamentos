@@ -51,6 +51,7 @@ class MemberDetailViewController: UIViewController {
         nameLabel.text = "\(model.name)"
         aliasLabel.text = "\(model.alias)"
         houseNameLabel.text = "\(model.house.name)"
+        title = model.name
 
     }
 

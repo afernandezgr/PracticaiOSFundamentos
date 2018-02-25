@@ -50,7 +50,7 @@ class EpisodeDetailViewController: UIViewController {
         // Model -> View
         episodeNameLabel.text = "\(model.name)"
         launchDateLabel.text = model.launchDate.toString(dateFormat: "dd-MM-YYYY")
-        
+        title = model.name
         
     }
 

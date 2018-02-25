@@ -61,6 +61,7 @@ class WikiViewController: UIViewController {
     func syncModelWithView() {
         title = model.name
         webView.load(URLRequest(url: model.wikiURL))
+        
     }
     
     // MARK: - Notifications

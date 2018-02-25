@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         // Crear el UISplitVC y le asignamos los viewControllers (master y detail)
         let splitViewController = UISplitViewController()
         splitViewController.viewControllers = [
-            tabBarController, houseDetailViewController.wrappedInNavigation()
+            tabBarController, seasonDetailViewController.wrappedInNavigation()
         ]
         
         // Asignamos el rootVC

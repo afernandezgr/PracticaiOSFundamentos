@@ -11,13 +11,14 @@ import UIKit
 class EpisodeListViewController: UITableViewController {
  
     // MARK: - Properties
-    let model: [Episode]
+    var model: [Episode]
     
     // MARK: - Initialization
     init(model: [Episode]){
         self.model = model
         super.init(style: .plain)
-        title = "Westeros"
+        title = model.first?.season?.name
+       
         
     }
     
@@ -30,8 +31,49 @@ class EpisodeListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+      
+       
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        // Nos damos de alta ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(seasonDidChange), name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: nil)
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Nos damos de baja ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    @objc func seasonDidChange(notification: Notification) {
+        // Extraer el userInfo de la notification
+        guard let info = notification.userInfo else {
+            return
+        }
+        
+        // Sacar la season del userInfo
+        let season = info[SEASON_KEY] as? Season
+        
+        // Actualizar el modelo
+        model = (season?.sortedEpisodes)!
+        
+        // Sincronizar la vista
+        tableView.reloadData()
+        title = season?.name
+        
+    }
+    
+   
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,11 +112,12 @@ class EpisodeListViewController: UITableViewController {
         // Averiguar que season han pulsado
         let episode = model[indexPath.row]
         
-        
         // Creamos el SeasonDetailViewController
         let episodeDetailViewController = EpisodeDetailViewController(model: episode)
         
         // Hacemos push
+        
+    
         navigationController?.pushViewController(episodeDetailViewController, animated: true)
         
         // Aviso al delegado
