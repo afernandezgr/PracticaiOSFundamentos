@@ -19,6 +19,7 @@ protocol HouseFactory {
     
     var houses: [House] { get }
     func house(named: String) -> House?
+    func house(named: Houses) -> House?
     func houses(filteredBy: Filter) -> [House]
 }
 
@@ -66,6 +67,11 @@ final class LocalFactory: HouseFactory , SeasonsFactory{
     func house(named name: String) -> House? {
         let house = houses.filter{ $0.name.uppercased() == name.uppercased() }.first
         //let house = houses.first{ $0.name.uppercased() == name.uppercased() }
+        return house
+    }
+    
+    func house(named name: Houses) -> House? {
+        let house = houses.filter{ $0.name.uppercased() == name.description.uppercased() }.first
         return house
     }
     

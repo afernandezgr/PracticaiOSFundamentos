@@ -27,6 +27,26 @@ extension Date {
 
 typealias Words = String
 typealias Members = Set<Person>
+enum Houses : CustomStringConvertible {
+              case Stark
+              case Lannister
+              case Targaryen
+              case Baratheon
+              case Arryn
+              case Tully
+    
+    var description: String {
+        switch self {
+        case .Stark: return "Stark"
+        case .Lannister: return "Lannister"
+        case .Targaryen: return "Targaryen"
+        case .Baratheon: return "Baratheon"
+        case .Arryn: return "Arryn"
+        case .Tully: return "Tully"
+        }
+    }    
+}
+
 
 // MARK: - House
 final class House {

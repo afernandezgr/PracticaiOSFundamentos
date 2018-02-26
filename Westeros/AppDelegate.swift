@@ -12,9 +12,9 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate  {
 
     var window: UIWindow?
-
-
-    
+    let tabBarController = UITabBarController()
+    var splitViewController = UISplitViewController()
+  
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         let seasons = Repository.local.seasons
 
         // Creamos los controladores (masterVC, detailVC)
-        let houseListViewController = HouseListViewController(model: houses)
+        let  houseListViewController = HouseListViewController(model: houses)
         let lastSelectedHouse = houseListViewController.lastSelectedHouse()
         let houseDetailViewController = HouseDetailViewController(model: lastSelectedHouse)
                 
@@ -37,18 +37,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         let seasonDetailViewController = SeasonDetailViewController(model: seasons.first!)
         
         
-        let tabBarController = UITabBarController()
+        //let tabBarController = UITabBarController()
         tabBarController.viewControllers = [houseListViewController.wrappedInNavigation(),seasonListViewController.wrappedInNavigation()]
-        
+        tabBarController.delegate = self
         
         // Asignar delegados
         houseListViewController.delegate = houseDetailViewController
         seasonListViewController.delegate = seasonDetailViewController
         
         // Crear el UISplitVC y le asignamos los viewControllers (master y detail)
-        let splitViewController = UISplitViewController()
+        
         splitViewController.viewControllers = [
-            tabBarController, seasonDetailViewController.wrappedInNavigation()
+            tabBarController, houseDetailViewController.wrappedInNavigation()
         ]
         
         // Asignamos el rootVC
@@ -59,7 +59,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         return true
     }
 
-   
+
+    
+  
     
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -86,4 +88,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
  
 
 }
+
+extension AppDelegate : UITabBarControllerDelegate {
+ 
+   
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        
+        if  tabBarController.selectedIndex == 0 {
+            splitViewController.showDetailViewController(viewController, sender: self)
+        } else if tabBarController.selectedIndex == 1 {
+            splitViewController.showDetailViewController(viewController, sender: self)
+        }
+        
+        
+//        let nc = NotificationCenter.default
+//        let notification = Notification(name: Notification.Name(rawValue: Const.MasterViewChangeNotificationName) , object: self, userInfo: [Const.MasterKey: viewController])
+//        nc.post(notification)
+    }
+}
+
 

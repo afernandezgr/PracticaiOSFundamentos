@@ -44,6 +44,12 @@ class RepositoryTests: XCTestCase {
         let stark = Repository.local.house(named: "sTarK")
         XCTAssertEqual(stark?.name, "Stark")
         
+        let stark2 = Repository.local.house(named: Houses.Stark)
+        XCTAssertEqual(stark2?.name, "Stark")
+        
+        let stark3 = Repository.local.house(named: Houses.Stark)
+        XCTAssertNotEqual(stark3?.name, "Spark")
+        
         let keepcoding = Repository.local.house(named: "Keepcoding")
         XCTAssertNil(keepcoding)
     }
@@ -54,6 +60,7 @@ class RepositoryTests: XCTestCase {
         
         let otherFilter = Repository.local.houses(filteredBy: { $0.words.contains("invierno")})
         XCTAssertEqual(otherFilter.count, 1)
+        
     }
     
     
@@ -76,7 +83,7 @@ class RepositoryTests: XCTestCase {
         XCTAssertEqual(filtered2.count, 0)
         
         
-        let otherFilter = Repository.local.seasons(filteredBy: { $0.name.contains("-1")})
+        let otherFilter = Repository.local.seasons(filteredBy: { $0.name.contains("da-1")})
         XCTAssertEqual(otherFilter.count, 1)
     }
     
