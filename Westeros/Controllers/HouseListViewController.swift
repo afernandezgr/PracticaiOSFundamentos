@@ -81,8 +81,23 @@ class HouseListViewController: UITableViewController {
         // Averiguar que casa han pulsado
         let house = model[indexPath.row]
         
-        // Aviso al delegado
-        delegate?.houseListViewController(self, didSelectHouse: house)
+        
+        if  UIDevice.current.userInterfaceIdiom == .phone {
+       
+        
+            // Creamos el SeasonDetailViewController
+            let houseDetailViewController = HouseDetailViewController(model: house)
+            // Hacemos push
+            navigationController?.pushViewController(houseDetailViewController, animated: true)
+            
+        }
+        else if UIDevice.current.userInterfaceIdiom == .pad{
+            // Aviso al delegado
+            delegate?.houseListViewController(self, didSelectHouse: house)
+        }
+       
+        
+        
         
         // Mando la misma info a traves de notificaciones
         let notificationCenter = NotificationCenter.default

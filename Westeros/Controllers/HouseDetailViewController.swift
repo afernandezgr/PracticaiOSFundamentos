@@ -61,6 +61,11 @@ class HouseDetailViewController: UIViewController {
         // Creamos el WikiVC
         let wikiViewController = WikiViewController(model: model)
         
+        // Hacemos Push
+        let backItem = UIBarButtonItem()
+        backItem.title = "House Details"
+        navigationItem.backBarButtonItem = backItem
+        
         // Hacemos push
         navigationController?.pushViewController(wikiViewController, animated: true)
     }
@@ -68,6 +73,11 @@ class HouseDetailViewController: UIViewController {
     @objc func displayMembers() {
         // Creamos el VC
         let memberListViewController = MemberListViewController(model: model.sortedMembers)
+        
+        // Hacemos Push
+        let backItem = UIBarButtonItem()
+        backItem.title = "House Details"
+        navigationItem.backBarButtonItem = backItem
         
         // Hacemos Push
         navigationController?.pushViewController(memberListViewController, animated: true)

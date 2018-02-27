@@ -12,9 +12,10 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate  {
 
     var window: UIWindow?
-    let tabBarController = UITabBarController()
-    var splitViewController = UISplitViewController()
-  
+     
+    var houseListViewController : HouseListViewController?
+    var seasonListViewController: SeasonListViewController?
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         window = UIWindow(frame: UIScreen.main.bounds)
@@ -28,27 +29,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         let seasons = Repository.local.seasons
 
         // Creamos los controladores (masterVC, detailVC)
-        let  houseListViewController = HouseListViewController(model: houses)
-        let lastSelectedHouse = houseListViewController.lastSelectedHouse()
-        let houseDetailViewController = HouseDetailViewController(model: lastSelectedHouse)
+        // masterVC estará compuesto por un UITabBarController que contendrá
+        // tab1: HouseListViewController empequetado en un UINavigationController
+        // tab2: SeasonListViewController empaquetado en un UINavigationController
+
+        //tab1 de TabBar (Houses)
+        houseListViewController = HouseListViewController(model: houses)
+        let lastSelectedHouse = houseListViewController?.lastSelectedHouse()
+        let houseDetailViewController = HouseDetailViewController(model: lastSelectedHouse!)
                 
-        
-        let seasonListViewController = SeasonListViewController(model: seasons)
+        //tab2 de TabBar (Seasons)
+        seasonListViewController = SeasonListViewController(model: seasons)
         let seasonDetailViewController = SeasonDetailViewController(model: seasons.first!)
         
+        let tabBarController = UITabBarController()
+        //antes de meterlo en el tabBar los 'wrapeamos' en un NavigationController
+        //tabBarController.viewControllers = [houseListViewController!,seasonListViewController!]
+        tabBarController.viewControllers = [(houseListViewController?.wrappedInNavigation())!,(seasonListViewController?.wrappedInNavigation())!]
         
-        //let tabBarController = UITabBarController()
-        tabBarController.viewControllers = [houseListViewController.wrappedInNavigation(),seasonListViewController.wrappedInNavigation()]
+        
+        //El delegado de la tabBar será la propia AppDelegate 
         tabBarController.delegate = self
         
         // Asignar delegados
-        houseListViewController.delegate = houseDetailViewController
-        seasonListViewController.delegate = seasonDetailViewController
+        houseListViewController?.delegate = houseDetailViewController
+        seasonListViewController?.delegate = seasonDetailViewController
         
         // Crear el UISplitVC y le asignamos los viewControllers (master y detail)
-        
+        let splitViewController = UISplitViewController()
         splitViewController.viewControllers = [
-            tabBarController, houseDetailViewController.wrappedInNavigation()
+           // tabBarController.wrappedInNavigation(), houseDetailViewController.wrappedInNavigation()
+              tabBarController, houseDetailViewController.wrappedInNavigation()
         ]
         
         // Asignamos el rootVC
@@ -89,23 +100,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
 
 }
 
+
+
 extension AppDelegate : UITabBarControllerDelegate {
- 
+
    
-    
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-        
-        if  tabBarController.selectedIndex == 0 {
-            splitViewController.showDetailViewController(viewController, sender: self)
-        } else if tabBarController.selectedIndex == 1 {
-            splitViewController.showDetailViewController(viewController, sender: self)
+        func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+            if (viewController as! UINavigationController).topViewController  is SeasonListViewController {
+                let season = ((viewController as! UINavigationController).topViewController as! SeasonListViewController).model.first
+                let seasonDetailViewController = SeasonDetailViewController(model: season!)
+                seasonListViewController?.delegate = seasonDetailViewController
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                   self.window?.rootViewController?.showDetailViewController(seasonDetailViewController.wrappedInNavigation(), sender: nil)
+                }
+            }
+            else if (viewController as! UINavigationController).topViewController is HouseListViewController {
+                let house = ((viewController as! UINavigationController).topViewController as! HouseListViewController).model.first
+                let houseDetailViewController = HouseDetailViewController(model: house!)
+                houseListViewController?.delegate = houseDetailViewController
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                   self.window?.rootViewController?.showDetailViewController(houseDetailViewController.wrappedInNavigation(), sender: nil)
+                }
+           }
         }
-        
-        
-//        let nc = NotificationCenter.default
-//        let notification = Notification(name: Notification.Name(rawValue: Const.MasterViewChangeNotificationName) , object: self, userInfo: [Const.MasterKey: viewController])
-//        nc.post(notification)
-    }
 }
 
-
+    
+   

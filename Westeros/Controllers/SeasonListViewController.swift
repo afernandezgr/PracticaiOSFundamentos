@@ -26,7 +26,7 @@ class SeasonListViewController: UITableViewController {
     init(model: [Season]){
         self.model = model
         super.init(style: .plain)
-        
+        title = "Seasons"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -80,17 +80,19 @@ class SeasonListViewController: UITableViewController {
         // Averiguar que season han pulsado
         let season = model[indexPath.row]
       
-        
-//        // Creamos el SeasonDetailViewController
-//        let seasonDetailViewController = SeasonDetailViewController(model: season)
-//
-//        // Hacemos push
-//        navigationController?.pushViewController(seasonDetailViewController, animated: true)
-        
-        // Aviso al delegado
-        delegate?.seasonListViewController(self, didSelectSeason: season)
-        
-       // Mando la misma info a traves de notificaciones
+        if  UIDevice.current.userInterfaceIdiom == .phone {
+          // Creamos el SeasonDetailViewController
+          let seasonDetailViewController = SeasonDetailViewController(model: season)
+
+          // Hacemos push
+          navigationController?.pushViewController(seasonDetailViewController, animated: true)
+        }
+        else if UIDevice.current.userInterfaceIdiom == .pad {
+          // Aviso al delegado
+          delegate?.seasonListViewController(self, didSelectSeason: season)
+        }
+     
+        // Mando la misma info a traves de notificaciones
         let notificationCenter = NotificationCenter.default
 
         let notification = Notification(name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [SEASON_KEY : season])

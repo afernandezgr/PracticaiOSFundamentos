@@ -38,8 +38,8 @@ class SeasonDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         // Nos damos de alta ...
-        let notificationCenter = NotificationCenter.default
-        notificationCenter.addObserver(self, selector: #selector(seasonDidChange), name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: nil)
+       let notificationCenter = NotificationCenter.default
+       notificationCenter.addObserver(self, selector: #selector(seasonDidChange), name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: nil)
         
         setupUI()
         syncModelWithView()

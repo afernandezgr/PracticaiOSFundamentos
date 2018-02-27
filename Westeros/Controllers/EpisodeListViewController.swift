@@ -109,15 +109,15 @@ class EpisodeListViewController: UITableViewController {
     // MARK: Table View Delegate
     // should, will, did
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // Averiguar que season han pulsado
+        // Averiguar que episode han pulsado
         let episode = model[indexPath.row]
         
-        // Creamos el SeasonDetailViewController
+        
+        // Creamos el EpisodeDetailViewController
         let episodeDetailViewController = EpisodeDetailViewController(model: episode)
         
-        // Hacemos push
+        //Hacemos push
         
-    
         navigationController?.pushViewController(episodeDetailViewController, animated: true)
         
         // Aviso al delegado
