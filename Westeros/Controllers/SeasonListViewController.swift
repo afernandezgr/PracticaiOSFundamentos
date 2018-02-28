@@ -10,6 +10,7 @@ import UIKit
 
 let SEASON_KEY = "SeasonKey"
 let SEASON_DID_CHANGE_NOTIFICATION_NAME = "SeasonDidChange"
+let LAST_SEASON = "LAST_SEASON"
 
 protocol SeasonListViewControllerDelegate: class {
     // should, will, did
@@ -98,9 +99,32 @@ class SeasonListViewController: UITableViewController {
         let notification = Notification(name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [SEASON_KEY : season])
 
         notificationCenter.post(notification)
+        
+        // Guardar las coordenadas (section, row) de la ultima casa seleccionada
+        saveLastSelectedSeason(at: indexPath.row)
 
     }
     
     
     
+}
+
+extension SeasonListViewController {
+    func saveLastSelectedSeason(at row: Int) {
+        let defaults = UserDefaults.standard
+        defaults.set(row, forKey: LAST_SEASON)
+        // Por si las moscas
+        defaults.synchronize()
+    }
+    
+    func lastSelectedSeason() -> Season {
+        // Extraer la row del User Defaults
+        let row = UserDefaults.standard.integer(forKey: LAST_SEASON)
+        
+        // Averiguar la season de ese row
+        let season = model[row]
+        
+        // Devolverla
+        return season
+    }
 }

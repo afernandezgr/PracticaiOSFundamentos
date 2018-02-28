@@ -3,7 +3,7 @@
 //  Westeros
 //
 //  Created by Adolfo Fernandez on 24/2/18.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit

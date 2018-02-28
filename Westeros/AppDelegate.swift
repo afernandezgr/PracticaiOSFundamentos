@@ -107,16 +107,16 @@ extension AppDelegate : UITabBarControllerDelegate {
    
         func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
             if (viewController as! UINavigationController).topViewController  is SeasonListViewController {
-                let season = ((viewController as! UINavigationController).topViewController as! SeasonListViewController).model.first
-                let seasonDetailViewController = SeasonDetailViewController(model: season!)
+                let season = ((viewController as! UINavigationController).topViewController as! SeasonListViewController).lastSelectedSeason()
+                let seasonDetailViewController = SeasonDetailViewController(model: season)
                 seasonListViewController?.delegate = seasonDetailViewController
                 if UIDevice.current.userInterfaceIdiom == .pad {
                    self.window?.rootViewController?.showDetailViewController(seasonDetailViewController.wrappedInNavigation(), sender: nil)
                 }
             }
             else if (viewController as! UINavigationController).topViewController is HouseListViewController {
-                let house = ((viewController as! UINavigationController).topViewController as! HouseListViewController).model.first
-                let houseDetailViewController = HouseDetailViewController(model: house!)
+                let house = ((viewController as! UINavigationController).topViewController as! HouseListViewController).lastSelectedHouse()
+                let houseDetailViewController = HouseDetailViewController(model: house)
                 houseListViewController?.delegate = houseDetailViewController
                 if UIDevice.current.userInterfaceIdiom == .pad {
                    self.window?.rootViewController?.showDetailViewController(houseDetailViewController.wrappedInNavigation(), sender: nil)
