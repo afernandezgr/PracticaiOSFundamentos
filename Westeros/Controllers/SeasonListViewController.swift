@@ -3,7 +3,7 @@
 //  Westeros
 //
 //  Created by Adolfo Fernandez on 24/2/18.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit
@@ -80,24 +80,20 @@ class SeasonListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // Averiguar que season han pulsado
         let season = model[indexPath.row]
-      
-        if  UIDevice.current.userInterfaceIdiom == .phone {
-          // Creamos el SeasonDetailViewController
+        
+        if  splitViewController!.isCollapsed {
           let seasonDetailViewController = SeasonDetailViewController(model: season)
-
           // Hacemos push
           navigationController?.pushViewController(seasonDetailViewController, animated: true)
         }
-        else if UIDevice.current.userInterfaceIdiom == .pad {
+        else { 
           // Aviso al delegado
           delegate?.seasonListViewController(self, didSelectSeason: season)
         }
      
         // Mando la misma info a traves de notificaciones
         let notificationCenter = NotificationCenter.default
-
         let notification = Notification(name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [SEASON_KEY : season])
-
         notificationCenter.post(notification)
         
         // Guardar las coordenadas (section, row) de la ultima casa seleccionada

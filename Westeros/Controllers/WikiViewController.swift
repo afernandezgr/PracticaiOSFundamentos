@@ -2,8 +2,8 @@
 //  WikiViewController.swift
 //  Westeros
 //
-//  Created by Alexandre Freire on 15/02/2018.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Created by Adolfo Fernandez on 15/02/2018.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit

@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Westeros
 //
-//  Created by Alexandre Freire on 08/02/2018.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Created by Adolfo Fernandez on 08/02/2018.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit
@@ -57,6 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         
         // Crear el UISplitVC y le asignamos los viewControllers (master y detail)
         let splitViewController = UISplitViewController()
+        splitViewController.delegate = self
+        splitViewController.preferredDisplayMode = .allVisible
         splitViewController.viewControllers = [
            // tabBarController.wrappedInNavigation(), houseDetailViewController.wrappedInNavigation()
               tabBarController, houseDetailViewController.wrappedInNavigation()
@@ -110,7 +112,7 @@ extension AppDelegate : UITabBarControllerDelegate {
                 let season = ((viewController as! UINavigationController).topViewController as! SeasonListViewController).lastSelectedSeason()
                 let seasonDetailViewController = SeasonDetailViewController(model: season)
                 seasonListViewController?.delegate = seasonDetailViewController
-                if UIDevice.current.userInterfaceIdiom == .pad {
+                if !(self.window?.rootViewController as! UISplitViewController).isCollapsed  {
                    self.window?.rootViewController?.showDetailViewController(seasonDetailViewController.wrappedInNavigation(), sender: nil)
                 }
             }
@@ -118,11 +120,22 @@ extension AppDelegate : UITabBarControllerDelegate {
                 let house = ((viewController as! UINavigationController).topViewController as! HouseListViewController).lastSelectedHouse()
                 let houseDetailViewController = HouseDetailViewController(model: house)
                 houseListViewController?.delegate = houseDetailViewController
-                if UIDevice.current.userInterfaceIdiom == .pad {
+                if !(self.window?.rootViewController as! UISplitViewController).isCollapsed  {
                    self.window?.rootViewController?.showDetailViewController(houseDetailViewController.wrappedInNavigation(), sender: nil)
                 }
            }
         }
+}
+
+extension AppDelegate: UISplitViewControllerDelegate {
+    
+    func primaryViewController(forCollapsing splitViewController: UISplitViewController) -> UIViewController? {
+        return splitViewController.viewControllers.first
+    }
+    
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary sencondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+        return true
+    }
 }
 
     

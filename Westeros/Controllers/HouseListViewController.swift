@@ -2,8 +2,8 @@
 //  HouseListViewController.swift
 //  Westeros
 //
-//  Created by Alexandre Freire on 15/02/2018.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Created by Adolfo Fernandez on 15/02/2018.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit
@@ -81,29 +81,22 @@ class HouseListViewController: UITableViewController {
         // Averiguar que casa han pulsado
         let house = model[indexPath.row]
         
-        
-        if  UIDevice.current.userInterfaceIdiom == .phone {
-       
-        
+        if splitViewController!.isCollapsed {
             // Creamos el SeasonDetailViewController
             let houseDetailViewController = HouseDetailViewController(model: house)
             // Hacemos push
             navigationController?.pushViewController(houseDetailViewController, animated: true)
-            
         }
-        else if UIDevice.current.userInterfaceIdiom == .pad{
+        else {
+        
             // Aviso al delegado
             delegate?.houseListViewController(self, didSelectHouse: house)
         }
-       
-        
         
         
         // Mando la misma info a traves de notificaciones
         let notificationCenter = NotificationCenter.default
-
         let notification = Notification(name: Notification.Name(HOUSE_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [HOUSE_KEY : house])
-
         notificationCenter.post(notification)
 
         // Guardar las coordenadas (section, row) de la ultima casa seleccionada

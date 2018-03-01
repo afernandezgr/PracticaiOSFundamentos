@@ -2,8 +2,8 @@
 //  Repository.swift
 //  Westeros
 //
-//  Created by Alexandre Freire on 13/02/2018.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Created by Adolfo Fernandez on 13/02/2018.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit
@@ -66,7 +66,7 @@ final class LocalFactory: HouseFactory , SeasonsFactory{
     
     func house(named name: String) -> House? {
         let house = houses.filter{ $0.name.uppercased() == name.uppercased() }.first
-        //let house = houses.first{ $0.name.uppercased() == name.uppercased() }
+        
         return house
     }
     

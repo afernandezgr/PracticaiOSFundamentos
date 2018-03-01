@@ -2,8 +2,8 @@
 //  MemberListViewController.swift
 //  Westeros
 //
-//  Created by Alexandre Freire on 19/02/2018.
-//  Copyright © 2018 Alexandre Freire. All rights reserved.
+//  Created by Adolfo Fernandez on 19/02/2018.
+//  Copyright © 2018 Adolfo Fernandez. All rights reserved.
 //
 
 import UIKit
