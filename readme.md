@@ -52,15 +52,15 @@ Hacemos que AppDelegate implemente tambien el protocolo UISplitViewControllerDel
 Las estructura seguida ha sido:
 Para los cosas es en que nos hemos podido valer tan solo con el delegate (un objeto solo puede tener un delegado) hemos usado este procedimiento pero si había que 'avisar' a mas de un VC hemos empleado notificaciones.
 
-** Punto 8 **
+**Punto 8**
 
 Para implementar el punto 8 hemos generado un tipo enum, 'Houses' , para tener controlado el número de casas posible y asegurarnos que no cometemos errores al escribir, además el IDE nos asiste a la hora de elegir solamente valores válidos.
 
-** Punto 9 **
+**Punto 9**
 
 Este punto ha sido solventado con notificaciones. Se controla que si se cambia una casa o una temporada estándo ya en un nivel avanzado de detalle (EpisodeDetail o MemberDetail) hacemos un pop hasta el rootViewController para que tenga consistencia entre lo mostrado entre las masterVC la detailVC del splitVC.
 
-** Punto 10 **
+**Punto 10**
 
 Se ha implementado siguiendo un procedimiento a los seguidos anteriormente, hemos incluido un control de la notificación de cambio de houses para que si se produce se haga un pop hasta el rootViewController , con el fin de que tenga consistencia los mostrado en masterVC y detailVC del splitVC.
 
