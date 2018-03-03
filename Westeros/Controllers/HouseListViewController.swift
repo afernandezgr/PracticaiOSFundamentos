@@ -8,9 +8,7 @@
 
 import UIKit
 
-let HOUSE_KEY = "HouseKey"
-let HOUSE_DID_CHANGE_NOTIFICATION_NAME = "HouseDidChange"
-let LAST_HOUSE = "LAST_HOUSE"
+//Definición de Constantes en fichero Constants.swift
 
 protocol HouseListViewControllerDelegate: class {
     // should, will, did
@@ -81,20 +79,17 @@ class HouseListViewController: UITableViewController {
         // Averiguar que casa han pulsado
         let house = model[indexPath.row]
         
-        if splitViewController!.isCollapsed {
+       if splitViewController!.isCollapsed { //hacemos push de VC de HDVC si esta colapsado VC
             // Creamos el SeasonDetailViewController
-            let houseDetailViewController = HouseDetailViewController(model: house)
-            // Hacemos push
+           let houseDetailViewController = HouseDetailViewController(model: house)
+           // Hacemos push
             navigationController?.pushViewController(houseDetailViewController, animated: true)
         }
-        else {
+    
+        //llamamos al Delegate
+        delegate?.houseListViewController(self, didSelectHouse: house)
         
-            // Aviso al delegado
-            delegate?.houseListViewController(self, didSelectHouse: house)
-        }
-        
-        
-        // Mando la misma info a traves de notificaciones
+        // Mando la misma info a traves de notificaciones para avisar a las VC que están a la 'escucha'
         let notificationCenter = NotificationCenter.default
         let notification = Notification(name: Notification.Name(HOUSE_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [HOUSE_KEY : house])
         notificationCenter.post(notification)

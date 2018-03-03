@@ -27,6 +27,8 @@ extension Date {
 
 typealias Words = String
 typealias Members = Set<Person>
+
+//Creamos un tipo enum para poder controlar las casas y evitar problemas durante la escritura de las misma, aprovecharemos la facilitadad de autocompletado del IDE
 enum Houses : CustomStringConvertible {
               case Stark
               case Lannister

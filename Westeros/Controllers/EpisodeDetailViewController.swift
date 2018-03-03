@@ -39,11 +39,33 @@ class EpisodeDetailViewController: UIViewController {
        
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         syncModelWithView()
+        
+        // Nos damos de alta ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(seasonDidChange), name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: nil)
+        
+        
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Nos damos de baja ...
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(self)
+    }
+    
+    // MARK: - Notifications
+    @objc func seasonDidChange(notification: Notification) {
+ 
+        //Si recibimos el cambio de temporada desapilamos los VC para dejarlo en la vista detalle de la temporada
+        navigationController?.popToRootViewController(animated: true)
+  
+    }
     
     // Mark: - Sync
     func syncModelWithView() {
@@ -51,7 +73,6 @@ class EpisodeDetailViewController: UIViewController {
         episodeNameLabel.text = "\(model.name)"
         launchDateLabel.text = model.launchDate.toString(dateFormat: "dd-MM-YYYY")
         title = model.name
-        
     }
 
 

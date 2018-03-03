@@ -8,9 +8,7 @@
 
 import UIKit
 
-let SEASON_KEY = "SeasonKey"
-let SEASON_DID_CHANGE_NOTIFICATION_NAME = "SeasonDidChange"
-let LAST_SEASON = "LAST_SEASON"
+//Constantes en fichero Constants.swift
 
 protocol SeasonListViewControllerDelegate: class {
     // should, will, did
@@ -81,17 +79,17 @@ class SeasonListViewController: UITableViewController {
         // Averiguar que season han pulsado
         let season = model[indexPath.row]
         
-        if  splitViewController!.isCollapsed {
+        if  splitViewController!.isCollapsed { //hacemos push del VC en caso de estar en modo colapsado
           let seasonDetailViewController = SeasonDetailViewController(model: season)
           // Hacemos push
           navigationController?.pushViewController(seasonDetailViewController, animated: true)
         }
-        else { 
-          // Aviso al delegado
-          delegate?.seasonListViewController(self, didSelectSeason: season)
-        }
-     
-        // Mando la misma info a traves de notificaciones
+        
+        // Aviso al delegado
+        delegate?.seasonListViewController(self, didSelectSeason: season)
+    
+        
+        // Mando la misma info a traves de notificaciones para avisar a las VC que están a la 'escucha'
         let notificationCenter = NotificationCenter.default
         let notification = Notification(name: Notification.Name(SEASON_DID_CHANGE_NOTIFICATION_NAME), object: self, userInfo: [SEASON_KEY : season])
         notificationCenter.post(notification)

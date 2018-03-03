@@ -60,26 +60,20 @@ class HouseDetailViewController: UIViewController {
     @objc func displayWiki() {
         // Creamos el WikiVC
         let wikiViewController = WikiViewController(model: model)
-        
-        // Hacemos Push
+        // Hacemos Push persoanlizado antes del boton de back
         let backItem = UIBarButtonItem()
         backItem.title = "House Details"
         navigationItem.backBarButtonItem = backItem
-        
-        // Hacemos push
         navigationController?.pushViewController(wikiViewController, animated: true)
     }
     
     @objc func displayMembers() {
         // Creamos el VC
         let memberListViewController = MemberListViewController(model: model.sortedMembers)
-        
-        // Hacemos Push
+        // Hacemos Push personalizamos antes el boton de back
         let backItem = UIBarButtonItem()
         backItem.title = "House Details"
         navigationItem.backBarButtonItem = backItem
-        
-        // Hacemos Push
         navigationController?.pushViewController(memberListViewController, animated: true)
     }
 }
@@ -87,6 +81,7 @@ class HouseDetailViewController: UIViewController {
 extension HouseDetailViewController: HouseListViewControllerDelegate {
     func houseListViewController(_ viewController: HouseListViewController, didSelectHouse house: House) {
         self.model = house
+        self.loadView()
         syncModelWithView()
     }
 }

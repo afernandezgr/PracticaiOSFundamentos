@@ -48,7 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         tabBarController.viewControllers = [(houseListViewController?.wrappedInNavigation())!,(seasonListViewController?.wrappedInNavigation())!]
         
         
-        //El delegado de la tabBar será la propia AppDelegate 
+        //El delegado de la tabBar será la propia AppDelegate que implementar el protocolo correspondiente, ver extensiones mas abajo
         tabBarController.delegate = self
         
         // Asignar delegados
@@ -56,11 +56,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate  {
         seasonListViewController?.delegate = seasonDetailViewController
         
         // Crear el UISplitVC y le asignamos los viewControllers (master y detail)
+        // Configuramos splitVC para hacerle delegado de si mismo, más abajo configuramos el Delegado del SplitVC para controlar el comportamiento al colapsarse
+
         let splitViewController = UISplitViewController()
         splitViewController.delegate = self
         splitViewController.preferredDisplayMode = .allVisible
         splitViewController.viewControllers = [
-           // tabBarController.wrappedInNavigation(), houseDetailViewController.wrappedInNavigation()
               tabBarController, houseDetailViewController.wrappedInNavigation()
         ]
         
@@ -108,6 +109,8 @@ extension AppDelegate : UITabBarControllerDelegate {
 
    
         func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+            
+            //Detectamos el VC que ha generado el evento y en función de eso modificamos el ShowDetailVC
             if (viewController as! UINavigationController).topViewController  is SeasonListViewController {
                 let season = ((viewController as! UINavigationController).topViewController as! SeasonListViewController).lastSelectedSeason()
                 let seasonDetailViewController = SeasonDetailViewController(model: season)
@@ -129,13 +132,14 @@ extension AppDelegate : UITabBarControllerDelegate {
 
 extension AppDelegate: UISplitViewControllerDelegate {
     
+    //en caso de que colapse especificamos el VC a mostrar
     func primaryViewController(forCollapsing splitViewController: UISplitViewController) -> UIViewController? {
         return splitViewController.viewControllers.first
     }
     
-    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary sencondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+   func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary sencondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
         return true
-    }
+   }
 }
 
     

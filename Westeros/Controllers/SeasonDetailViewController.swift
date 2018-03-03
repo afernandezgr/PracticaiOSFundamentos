@@ -81,7 +81,7 @@ class SeasonDetailViewController: UIViewController {
     // Mark: - Sync
     func syncModelWithView() {
         // Model -> View
-        seasonNameLabel.text = "Nombre de la temporada: \(model.name)"
+        seasonNameLabel.text = "Name of the season: \(model.name)"
         releaseDateLabel.text = model.releaseDate.toString(dateFormat: "dd-MM-YYYY")
         title = model.name
         
@@ -90,9 +90,7 @@ class SeasonDetailViewController: UIViewController {
 
     // MARK: - UI
     func setupUI() {
-       
         let episodes = UIBarButtonItem(title: "Episodes", style: .plain, target: self, action: #selector(displayEpisodes))
-        
         navigationItem.rightBarButtonItems = [episodes]
     }
     
@@ -100,11 +98,10 @@ class SeasonDetailViewController: UIViewController {
         // Creamos el VC
         let episodesListViewController = EpisodeListViewController(model: model.sortedEpisodes)
         
-        // Hacemos Push
+        // Hacemos Push y personalizamos antes el boton de back
         let backItem = UIBarButtonItem()
         backItem.title = "Season Details"
-        navigationItem.backBarButtonItem = backItem
-        
+        navigationItem.backBarButtonItem = backItem        
         navigationController?.pushViewController(episodesListViewController, animated: true)
     }
 

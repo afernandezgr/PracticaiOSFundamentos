@@ -68,7 +68,6 @@ class MemberListViewController: UIViewController {
         // Sincronizar la vista
         tableView.reloadData()
         
-        
     }
     
     
